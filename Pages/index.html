@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DASA Social Night Quiz</title>
+<style>
+  body { font-family: Arial, sans-serif; background:#f4f8fb; margin:0; padding:0; }
+  header { background:#2c3e50; padding:20px; text-align:center; }
+  header img { max-height:80px; }
+  header h1 { color:#fff; margin:10px 0 0; }
+  .quiz-box { max-width:800px; margin:20px auto; background:#fff; padding:20px; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.1);}
+  .question { margin:20px 0; }
+  button { background:#2c3e50; color:#fff; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; }
+  button:hover { background:#34495e; }
+  footer { background:#2c3e50; color:#fff; text-align:center; padding:15px; margin-top:30px; }
+</style>
+</head>
+<body>
+
+<!-- Logo Section -->
+<header>
+  <img src="logo.png" alt="DASA Logo"> <!-- Replace logo.png with your actual logo file -->
+  <h1>DASA Social Night Quiz</h1>
+</header>
+
+<div class="quiz-box">
+  <form id="quizForm">
+    <label>Name: <input type="text" id="name" required></label>
+
+    <!-- Example Questions (expand to all 15) -->
+    <div class="question">
+      <p>1. What is the 2026 DASA Theme?</p>
+      <input type="radio" name="q1" value="In His Steps I Will Go"> In His Steps I Will Go<br>
+      <input type="radio" name="q1" value="Faith in Action"> Faith in Action<br>
+    </div>
+
+    <div class="question">
+      <p>2. Who is the leader in charge of the Social Division?</p>
+      <input type="radio" name="q2" value="Taisen Marainump"> Taisen Marainump<br>
+      <input type="radio" name="q2" value="Abel Gamakove"> Abel Gamakove<br>
+    </div>
+
+    <!-- Continue adding all 15 questions here -->
+
+    <button type="submit">Submit Quiz</button>
+  </form>
+</div>
+
+<!-- Footer Section -->
+<footer>
+  <p>&copy; 2026 DASA | Social Night Quiz | Empowering Fellowship Through Christ</p>
+</footer>
+
+<script>
+const scriptURL = "YOUR_GOOGLE_APPS_SCRIPT_URL"; // Replace with your Web App URL
+
+document.getElementById("quizForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  let name = document.getElementById("name").value;
+  let answers = {};
+  let score = 0;
+
+  // Example scoring logic
+  if(document.querySelector('input[name="q1"]:checked')?.value === "In His Steps I Will Go") score++;
+  if(document.querySelector('input[name="q2"]:checked')?.value === "Taisen Marainump") score++;
+
+  // Collect all answers
+  document.querySelectorAll("input[type=radio]:checked").forEach(el => {
+    answers[el.name] = el.value;
+  });
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify({name, score, answers})
+  }).then(res => alert("Quiz submitted! Your score: " + score))
+    .catch(err => alert("Error: " + err));
+});
+</script>
+</body>
+</html>
